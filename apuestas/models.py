@@ -3,17 +3,18 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 
+
 # Create your models here.
 
 class UserProfileManager(BaseUserManager):
-    #ayuda a django a trabajar con nuestro propio modelo de usuario
+    # ayuda a django a trabajar con nuestro propio modelo de usuario
     def create_user(self, email, name, lastname, balance, dni, password=None):
-        #crea un objeto como nuevo usuario
+        # crea un objeto como nuevo usuario
 
         if not email:
             raise ValueError("ingrese email")
 
-        email =self.normalize_email(email)
+        email = self.normalize_email(email)
         user = self.model(email=email, name=name, lastname=lastname, balance=balance, dni=dni)
         user.set_password(password)
         user.save(using=self._db)
@@ -21,9 +22,9 @@ class UserProfileManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, name, password):
-        #crea y guardar un nuevo usario administrador
+        # crea y guardar un nuevo usario administrador
 
-        user = self.create_user(email, name, password)
+        user = self.create_user(email, name,'', 0, 0, password)
         user.is_superuser = True
         user.is_staff = True
         user.save(using=self._db)
@@ -32,9 +33,9 @@ class UserProfileManager(BaseUserManager):
 
 
 class UserProfile(AbstractBaseUser, PermissionsMixin):
-    #Representa un perfil de usuario dentro de nuestro sistema.
+    # Representa un perfil de usuario dentro de nuestro sistema.
 
-    email = models.EmailField(max_length=255, unique=True, primary_key= True)
+    email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255, default='')
     lastname = models.CharField(max_length=255, default='')
     balance = models.IntegerField(default=0)
@@ -49,36 +50,61 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['name']
 
     def get_full_name(self):
-       # usado para obtener el nombre completo
+        # usado para obtener el nombre completo
         return self.name
 
     def get_short_name(self):
-        #usado para obtener el nombre corto
+        # usado para obtener el nombre corto
         return self.name
 
     def get_id(self):
         return self.id
 
-
     def __str__(self):
-        #Djando usa esto cuando necesita convertir objecs a string
+        # Djando usa esto cuando necesita convertir objecs a string
         return self.email
 
-
-
-class Balance(models.Model):
-    #modelo para gestion de recrgas
+class Payoffs(models.Model):
+    # modelo para gestion de recrgas
+    user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     consigned_amount = models.IntegerField(default=0)
     date_amount = models.DateTimeField(null=True, blank=True)
-    user_id = models.ForeignKey(UserProfile.dni, on_delete=models.CASCADE)
 
-    def NewBalance(self, amount, date, user):
+
+    """
+    def NewPayoffs(self, amount, date, user):
         balance = self.model(consigned_amount=amount, date_amount=date, user_id=user)
-        #funcion que actulizce el saldo del usuario
+        # funcion que actulizce el saldo del usuario
         balance.save(using=self._db)
 
+        return  balance
 
     def __str__(self):
         return self.consigned_amount()
+    """
 
 
+class Bets(models.Model):
+    #modelo general de apuestas
+    user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    local_team = models.CharField(max_length=255)
+    visiting_team = models.CharField(max_length=255)
+    league = models.CharField(max_length=255)
+    balance = models.IntegerField(default=0)
+    date = models.DateTimeField(null=True, blank=True)
+    bets_state = models.BooleanField(default=False)
+
+class WinBets(models.Model):
+    #modelo de apuestas por equpo ganador
+    bets_id = models.ForeignKey(Bets, on_delete=models.CASCADE)
+    team_bet = models.CharField(max_length=255)
+
+class MarkerBets(models.Model):
+    #modelo de apuestas por marcador
+    bets_id = models.ForeignKey(Bets, on_delete=models.CASCADE)
+    local_marker = models.IntegerField(default=0)
+    visiting_marker = models.IntegerField(default=0)
+
+class GoalsBets(models.Model):
+    bets_id = models.ForeignKey(Bets, on_delete=models.CASCADE)
+    goals_dif = models.IntegerField(default=0)
