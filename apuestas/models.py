@@ -70,7 +70,7 @@ class Balance(models.Model):
     #modelo para gestion de recrgas
     consigned_amount = models.IntegerField(default=0)
     date_amount = models.DateTimeField(null=True, blank=True)
-    user_id = models.ForeignKey(UserProfile.email, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(UserProfile.dni, on_delete=models.CASCADE)
 
     def NewBalance(self, amount, date, user):
         balance = self.model(consigned_amount=amount, date_amount=date, user_id=user)
