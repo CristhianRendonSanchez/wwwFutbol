@@ -1,8 +1,27 @@
 import json
 import http.client
 
+from django.shortcuts import render, redirect
+from .forms import LoginForm, RegisterForm
 from django.shortcuts import render
+from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth import authenticate, login
 import requests
+
+
+def index(request):
+    form = LoginForm(request.POST or None)
+    if form.is_valid():
+        data = form.cleaned_data
+        nombres_usuarios = data.get("name_user")
+        contraseña_usuarios = data.get("password_user")
+        print(nombres_usuarios)
+        print(contraseña_usuarios)
+    var = {
+        "form_login": form,
+    }
+    return render(request, "index.html", var)
+
 
 # Create your views here.
 def inicio(request):
@@ -24,4 +43,4 @@ def inicio(request):
         datos.append(temp)
         print(datos[i])
 
-    return render(request,'index.html', {'seasons': datos[10]})
+    return render(request, 'index.html', {'seasons': datos[10]})

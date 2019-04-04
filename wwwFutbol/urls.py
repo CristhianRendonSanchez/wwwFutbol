@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
+from apuestas.views import index
 
-from apuestas.views import inicio
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('inicio/',inicio)
+    url(r'^$', index, name="index"),
+    #path('inicio/', views.index),
+    path('admin/', admin.site.urls)
+
 ]
