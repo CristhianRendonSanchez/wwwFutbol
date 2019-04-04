@@ -70,18 +70,9 @@ class Payoffs(models.Model):
     consigned_amount = models.IntegerField(default=0)
     date_amount = models.DateTimeField(null=True, blank=True)
 
-
-    """
-    def NewPayoffs(self, amount, date, user):
-        balance = self.model(consigned_amount=amount, date_amount=date, user_id=user)
-        # funcion que actulizce el saldo del usuario
-        balance.save(using=self._db)
-
-        return  balance
-
     def __str__(self):
-        return self.consigned_amount()
-    """
+        return self.user_id.__str__()
+
 
 
 class Bets(models.Model):
@@ -93,6 +84,7 @@ class Bets(models.Model):
     balance = models.IntegerField(default=0)
     date = models.DateTimeField(null=True, blank=True)
     bets_state = models.BooleanField(default=False)
+
 
 class WinBets(models.Model):
     #modelo de apuestas por equpo ganador
