@@ -28,47 +28,65 @@ def get_ligas(request):
 		print(datos[i])
 
 	#return render(request,'index.html', {'seasons': datos[0]})
-	return datos
+	return render(request ,"apuestas.html", {'ligas': datos})
 
+def get_aquipos(request,id):
+	connection = http.client.HTTPConnection('api.football-data.org')
+	headers = {'X-Auth-Token':
+				   '81e49a62695c431f83675e9f9da4e078'}
+	connection.request('GET', '/v2/competitions?id=2045', None, headers)
+	response = json.loads(connection.getresponse().read().decode())
+	print(response)
 
-def bets_view(request):
-	if request.method == 'POST':
-		form = ApuestaForm(request.POST)
-		if form.is_valid():
-			form.save()
-		return redirect('ganador') #aqui redirecciono a ala seleccion de tipo de apuesta
-	else:
-		form = ApuestaForm()
-	return render(request, 'index.html', {'form':form})
+"""
+def bets_view(request,id):
+	user = UserProfile.objects.get(id=id)
+	balance = user.balance
+	form = BetsForm(request.POST)
+	if form.is_valid():
+		if balance < form.cleaned_data['balance']:
+			pay = form.cleaned_data['balance'] - balance
+			dateB = datetime.now()
+			bet = Bets(user_id = id,
+						local_team= form.cleaned_data['local_team'],
+						visiting_team=form.cleaned_data['visiting_team'],
+						league=form.cleaned_data['league'],
+						balance= form.cleaned_data['balance'],
+						date = dateB,
+						bets_state= True)
+			#form.save()
+			bet.save()
+		return redirect('index') #aqui redirecciono a ala seleccion de tipo de apuesta
+
 
 def bets_win_view(request):
 	if request.method == 'POST':
-		form = Apuestas_por_ganador(request.POST)
+		form = WinBetsForm(request.POST)
 		if form.is_valid():
 			form.save()
 		return redirect('index') #aqui redirecciono ala pagina principal de apuestas
 	else:
-		form = Apuestas_por_ganador()
-	return render(request, 'index.html', {'form':form})
+		form = WinBetsForm()
+	return render(request, 'apuestas.html', {'form':form})
 
 def bets_Marker_view(request):
 	if request.method == 'POST':
-		form = Apuestas_por_marcador(request.POST)
+		form = MarkerBetsForm(request.POST)
 		if form.is_valid():
 			form.save()
 		return redirect('index') #aqui redirecciono ala pagina principal de apuestas
 	else:
-		form = Apuestas_por_marcador()
-	return render(request, 'index.html', {'form':form})
+		form = MarkerBetsForm()
+	return render(request, 'apuestas.html', {'form':form})
 
 
 def bets_goals_view(request):
 	if request.method == 'POST':
-		form = Apuestas_por_dif_goles(request.POST)
+		form = GoalsBetsForm(request.POST)
 		if form.is_valid():
 			form.save()
 		return redirect('index') #aqui redirecciono ala pagina principal de apuestas
 	else:
-		form = Apuestas_por_dif_goles()
-	return render(request, 'index.html', {'form':form})
+		form = GoalsBetsForm()
+	return render(request, 'index.html', {'form':form})"""
 

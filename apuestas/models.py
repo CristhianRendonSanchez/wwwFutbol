@@ -42,12 +42,15 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     dni = models.IntegerField(default=0)
 
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
+
 
     objects = UserProfileManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
+
+    class Meta:
+        db_table = "user_profile"
 
     def get_full_name(self):
         # usado para obtener el nombre completo
@@ -70,6 +73,9 @@ class Payoffs(models.Model):
     consigned_amount = models.IntegerField(default=0)
     date_amount = models.DateTimeField(null=True, blank=True)
 
+    class Meta:
+        db_table = "payoffs"
+
     def __str__(self):
         return self.user_id.__str__()
 
@@ -85,11 +91,17 @@ class Bets(models.Model):
     date = models.DateTimeField(null=True, blank=True)
     bets_state = models.BooleanField(default=False)
 
+    class Meta:
+        db_table = "bets"
+
 
 class WinBets(models.Model):
     #modelo de apuestas por equpo ganador
     bets_id = models.ForeignKey(Bets, on_delete=models.CASCADE)
     team_bet = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = "win_bets"
 
 class MarkerBets(models.Model):
     #modelo de apuestas por marcador
@@ -97,6 +109,12 @@ class MarkerBets(models.Model):
     local_marker = models.IntegerField(default=0)
     visiting_marker = models.IntegerField(default=0)
 
+    class Meta:
+        db_table = "marker_bets"
+
 class GoalsBets(models.Model):
     bets_id = models.ForeignKey(Bets, on_delete=models.CASCADE)
     goals_dif = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = "goals_bets"

@@ -15,15 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from apuestas.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^apuesta/',bets_view, name='index'),
-    url(r'^apuestaGanador/',bets_win_view, name='ganador'),
-    #url(r'^apuestaMarcador/',bets_Marker_view, name='marcador'),
-    #url(r'^apuestaGoles/',bets_goals_view, name='goles'),
+    path('bets/',include('apuestas.urls')),
+    path('payoffs',include('payoffs.urls'))
 ]
 

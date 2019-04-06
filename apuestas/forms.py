@@ -21,37 +21,35 @@ def get_ligas():
     datos = []
 
     for i in range(0, response["count"]):
-        """
+
         temp = {}
         temp['pais'] = response["competitions"][i]["area"]["name"]
         temp['liga'] = response["competitions"][i]["name"]
         temp['id'] = response["competitions"][i]["id"]
-        """
+
         datos.append(response["competitions"][i]["name"])
         print(datos)
 
     #return render(request,'index.html', {'seasons': datos[0]})
     return datos
 
-class ApuestaForm(forms.ModelForm):
+class BetsForm(forms.ModelForm):
 
     class Meta:
         model = Bets
 
-        league = forms.ChoiceField(choices=get_ligas())
-        date = forms.DateTimeField(initial=datetime.now())
+        #fields = '__all__'
+
+       #CHOICES = (('Option 1', 'Option 1'),('Option 2', 'Option 2'),)
 
         fields = [
-            'user_id',
             'local_team',
             'visiting_team',
             'league',
             'balance',
-            'date',
-            'bets_state' ,
 		]
 
-        labels = {
+        """labels = {
 			'user_id' : 'id de usuario',
             'local_team' : 'equipo local',
             'visiting_team': 'equipo visitante',
@@ -59,13 +57,15 @@ class ApuestaForm(forms.ModelForm):
             'balance': 'valor apuesta',
             'date': 'fecha',
             'bets_state' : 'estado apuesta' ,
-		}
+		}"""
 
-class Apuestas_por_ganador(forms.ModelForm):
+class WinBetsForm(forms.ModelForm):
     class Meta:
         model = WinBets
 
-        fields = {
+        fields = '__all__'
+
+        """fields = {
             'bets_id',
             'team_bet',
         }
@@ -73,13 +73,15 @@ class Apuestas_por_ganador(forms.ModelForm):
         labels = {
             'bets_id' : 'id de apuesta',
             'team_bet' : 'equipo ganador',
-        }
+        }"""
 
-class Apuestas_por_marcador(forms.ModelForm):
+class MarkerBetsForm(forms.ModelForm):
     class Meta:
         model = MarkerBets
 
-        fields = {
+        fields = '__all__'
+
+        """fields = {
             'bets_id',
             'local_marker',
             'visiting_marker',
@@ -89,13 +91,15 @@ class Apuestas_por_marcador(forms.ModelForm):
             'bets_id' : 'id de apuesta',
             'local_marker' : 'marcador local',
             'visiting_marker': 'marcador visitante',
-        }
+        }"""
 
-class Apuestas_por_dif_goles(forms.ModelForm):
+class GoalsBetsForm(forms.ModelForm):
     class Meta:
         model = GoalsBets
 
-        fields = {
+        fields = '__all__'
+
+        """fields = {
             'bets_id',
             'goals_dif',
         }
@@ -103,4 +107,4 @@ class Apuestas_por_dif_goles(forms.ModelForm):
         labels = {
             'bets_id' : 'id de apuesta',
             'goals_dif' : 'diferencia de goles',
-        }
+        }"""
