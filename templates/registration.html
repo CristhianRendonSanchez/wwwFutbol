@@ -9,6 +9,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     </head>
     <body>
+
         <form method="POST" class="post-form" action="{% url 'register' %}">
             {% csrf_token %}
             <div class="container">
@@ -67,5 +68,6 @@
                 </div>
             </div>
         </form>
+
     </body>
 </html>

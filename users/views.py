@@ -30,7 +30,6 @@ def register(request):
             print(user_form.errors)
     else:
         user_form = UserForm()
-
     return render(request, 'registration.html')
 
 
@@ -63,4 +62,4 @@ def user_login(request):
             print("Username: {} and password:{}".format(email, password))
             return HttpResponse("Invalid login details given")
     else:
-        return render(request, 'index.html', {})
+        return render(request, 'index.htOml', {})
