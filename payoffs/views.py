@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from users.forms import UserPayoffForm
 from apuestas.models import Payoffs
@@ -33,6 +34,3 @@ def delete(request, id):
     user.is_active = 0
     user.save()
     return redirect('index')
-
-
-
