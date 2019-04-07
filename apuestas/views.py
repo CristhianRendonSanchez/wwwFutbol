@@ -10,9 +10,8 @@ from apuestas.forms import *
 
 def get_ligas(request):
 	connection = http.client.HTTPConnection('api.football-data.org')
-	headers = {'X-Auth-Token':
-				   '81e49a62695c431f83675e9f9da4e078'}
-	connection.request('GET', '/v2/competitions?areas=2049', None, headers)
+	headers = {'X-Auth-Token':'81e49a62695c431f83675e9f9da4e078'}
+	connection.request('GET', '/v2/competitions', None, headers)
 	response = json.loads(connection.getresponse().read().decode())
 
 	# datos = response.json()
@@ -21,24 +20,68 @@ def get_ligas(request):
 
 	for i in range(0, response["count"]):
 		temp = {}
-		temp['pais'] = response["competitions"][i]["area"]["name"]
-		temp['liga'] = response["competitions"][i]["name"]
-		temp['id'] = response["competitions"][i]["id"]
-		datos.append(temp)
-		print(datos[i])
+		if response["competitions"][i]["plan"] == "TIER_ONE":
+			temp['pais'] = response["competitions"][i]["area"]["name"]
+			temp['liga'] = response["competitions"][i]["name"]
+			temp['id'] = response["competitions"][i]["id"]
+			temp['code'] = response["competitions"][i]["code"]
+			print(response["competitions"][i]["id"])
+			datos.append(temp)
 
 	#return render(request,'index.html', {'seasons': datos[0]})
-	return render(request ,"apuestas.html", {'ligas': datos})
+	return render(request ,"league.html", {'ligas': datos})
 
-def get_aquipos(request,id):
+def get_partidos(request,id):
 	connection = http.client.HTTPConnection('api.football-data.org')
-	headers = {'X-Auth-Token':
-				   '81e49a62695c431f83675e9f9da4e078'}
-	connection.request('GET', '/v2/competitions?id=2045', None, headers)
+	headers = {'X-Auth-Token':'81e49a62695c431f83675e9f9da4e078'}
+	connection.request('GET', '/v2/competitions/' + str(id) + '/matches?status=SCHEDULED', None, headers)
 	response = json.loads(connection.getresponse().read().decode())
-	print(response)
 
-"""
+	datos = []
+	for i in range(0, response["count"]):
+		temp = {}
+		temp['id'] = response["matches"][i]["id"]
+		temp['date'] = response["matches"][i]["utcDate"]
+		#temp['status'] = response["matches"][i]["status"]
+		temp['local_team'] = response["matches"][i]["homeTeam"]["name"]
+		#temp['local_team_id'] = response["matches"][i]["homeTeam"]["id"]
+		temp['visisting_team'] = response["matches"][i]["awayTeam"]["name"]
+		#temp['visisting_team_id'] = response["matches"][i]["awayTeam"]["id"]
+		print(temp)
+		datos.append(temp)
+
+
+	return render(request, "match.html", {'teams': datos, 'liga': response["competition"]["name"]})
+
+
+
+def consultar_partidos(id):
+	connection = http.client.HTTPConnection('api.football-data.org')
+	headers = {'X-Auth-Token': '81e49a62695c431f83675e9f9da4e078'}
+	connection.request('GET', '/v2/matches/' + str(id), None, headers)
+	response = json.loads(connection.getresponse().read().decode())
+
+	datos = {}
+	datos['liga'] = response["match"]["competition"]["name"]
+	datos['date'] = response["match"]["utcDate"]
+	datos['status'] = response["match"]["status"]
+	datos['score_local'] = response["match"]["score"]["fullTime"]["homeTeam"]
+	datos['score_visiting'] = response["match"]["score"]["fullTime"]["awayTeam"]
+	datos['local_team'] = response["match"]["homeTeam"]["name"]
+	datos['visisting_team'] = response["match"]["awayTeam"]["name"]
+
+	return datos
+
+def bets_view(request, id):
+	partido = consultar_partidos(id)
+	return  render(request, "bet.html", {'match' : partido})
+
+
+
+
+
+
+""""
 def bets_view(request,id):
 	user = UserProfile.objects.get(id=id)
 	balance = user.balance
@@ -67,7 +110,7 @@ def bets_win_view(request):
 		return redirect('index') #aqui redirecciono ala pagina principal de apuestas
 	else:
 		form = WinBetsForm()
-	return render(request, 'apuestas.html', {'form':form})
+	return render(request, 'league.html', {'form':form})
 
 def bets_Marker_view(request):
 	if request.method == 'POST':
@@ -77,7 +120,7 @@ def bets_Marker_view(request):
 		return redirect('index') #aqui redirecciono ala pagina principal de apuestas
 	else:
 		form = MarkerBetsForm()
-	return render(request, 'apuestas.html', {'form':form})
+	return render(request, 'league.html', {'form':form})
 
 
 def bets_goals_view(request):

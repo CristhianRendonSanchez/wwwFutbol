@@ -22,6 +22,6 @@ from apuestas.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('bets/',include('apuestas.urls')),
-    path('payoffs',include('payoffs.urls'))
+    #path('payoffs',include('payoffs.urls'))
 ]
 

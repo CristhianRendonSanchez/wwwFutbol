@@ -86,6 +86,7 @@ class Bets(models.Model):
     user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     local_team = models.CharField(max_length=255)
     visiting_team = models.CharField(max_length=255)
+    #id_match = models.IntegerField(default=0)
     league = models.CharField(max_length=255)
     balance = models.IntegerField(default=0)
     date = models.DateTimeField(null=True, blank=True)

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>.:: Ligas ::.</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="container" style="padding-top: 5%">
+    <h2>Ligas</h2>
+    <p>Escribe para buscar las ligas disponibles</p>
+    <input class="form-control" id="myInput" type="text" placeholder="Buscar...">
+    <br>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Pais</th>
+            <th>Liga</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        {% for liga in ligas %}
+            <tr>
+                <td>{{ liga.pais }}</td>
+                <td>{{ liga.liga }}</td>
+                <td>
+                    <a href="{% url 'team' liga.id %}" class="btn btn-success"><span  class="fas fa-hand-holding-usd"></span></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
