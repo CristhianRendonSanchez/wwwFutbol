@@ -42,12 +42,15 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     dni = models.IntegerField(default=0)
 
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
+
 
     objects = UserProfileManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
+
+    class Meta:
+        db_table = "user_profile"
 
     def get_full_name(self):
         # usado para obtener el nombre completo
@@ -70,18 +73,12 @@ class Payoffs(models.Model):
     consigned_amount = models.IntegerField(default=0)
     date_amount = models.DateTimeField(null=True, blank=True)
 
-
-    """
-    def NewPayoffs(self, amount, date, user):
-        balance = self.model(consigned_amount=amount, date_amount=date, user_id=user)
-        # funcion que actulizce el saldo del usuario
-        balance.save(using=self._db)
-
-        return  balance
+    class Meta:
+        db_table = "payoffs"
 
     def __str__(self):
-        return self.consigned_amount()
-    """
+        return self.user_id.__str__()
+
 
 
 class Bets(models.Model):
@@ -89,15 +86,23 @@ class Bets(models.Model):
     user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     local_team = models.CharField(max_length=255)
     visiting_team = models.CharField(max_length=255)
+    id_match = models.IntegerField(default=0)
     league = models.CharField(max_length=255)
     balance = models.IntegerField(default=0)
     date = models.DateTimeField(null=True, blank=True)
     bets_state = models.BooleanField(default=False)
 
+    class Meta:
+        db_table = "bets"
+
+
 class WinBets(models.Model):
     #modelo de apuestas por equpo ganador
     bets_id = models.ForeignKey(Bets, on_delete=models.CASCADE)
     team_bet = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = "win_bets"
 
 class MarkerBets(models.Model):
     #modelo de apuestas por marcador
@@ -105,6 +110,12 @@ class MarkerBets(models.Model):
     local_marker = models.IntegerField(default=0)
     visiting_marker = models.IntegerField(default=0)
 
+    class Meta:
+        db_table = "marker_bets"
+
 class GoalsBets(models.Model):
     bets_id = models.ForeignKey(Bets, on_delete=models.CASCADE)
     goals_dif = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = "goals_bets"

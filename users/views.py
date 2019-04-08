@@ -52,7 +52,8 @@ def user_login(request):
                     return redirect('index')
                 else:
                     request.session['email'] = email
-                    return render(request, 'league.html', {'user_id': user.id})
+                    print(user.id)
+                    return redirect('ligas', user_id=user.id)
                     #El vigi debe cambiar esto al name que le haya pueesto a su url inicial
                     #tipo: return redirect('lamadredelvigi', user_id: user.id)
             return HttpResponse("Tu cuenta está inactiva")

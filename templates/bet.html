@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>.:: Apuestas ::.</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<form method="POST" class="post-form" action="{% url 'save' %}">
+    {% csrf_token %}
+    <div class="container">
+        <div class="form-group row">
+            <label class="col-sm-1 col-form-label"></label>
+            <div class="col-sm-4">
+                <h3>Apuesta {{ match.local_team  }} Vs {{ match.visisting_team  }}</h3>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Liga: </label>
+                    <div class="col-sm">
+                        <input disabled class="form-control" type="text" value="{{ match.liga  }}"/>
+                        <input type="hidden" name="league" value="{{ match.liga}}"/>
+
+                        <input type="hidden" name="user_id" value="{{ user }}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Equipo Local: </label>
+                    <div class="col-sm">
+                        <input disabled class="form-control" type="text" value="{{ match.local_team  }}"/>
+                        <input type="hidden" name="local_team" value="{{ match.local_team }}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Equipo Visitante:</label>
+                    <div class="col-sm">
+                        <input disabled class="form-control" type="text" value="{{ match.visisting_team  }}" />
+                        <input type="hidden" name="visiting_team" value="{{ match.visisting_team  }}" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Fecha Apuesta:</label>
+                    <div class="col-sm">
+                        <input disabled class="form-control" type="datetime-local" id="date"/>
+                        <input type="hidden" name="date" id="date"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Valor Apostado:</label>
+                    <div class="col-sm">
+                        <input name="balance" class="form-control" type="number" />
+
+                        <input type="hidden" name="id_match" class="form-control" type="number" value = {{ id }} />
+                        <input type="hidden" name="bets_state" class="form-control" type="number" value= 1 />
+
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-1 col-form-label"></label>
+                    <div class="col-sm">
+                        <button type="submit" class="btn btn-success">Apostar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    window.addEventListener("load", function() {
+        var now = new Date();
+        var utcString = now.toISOString().substring(0,19);
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDate();
+        var hour = now.getHours();
+        var minute = now.getMinutes();
+        var second = now.getSeconds();
+        var localDatetime = year + "-" +
+            (month < 10 ? "0" + month.toString() : month) + "-" +
+            (day < 10 ? "0" + day.toString() : day) + "T" +
+            (hour < 10 ? "0" + hour.toString() : hour) + ":" +
+            (minute < 10 ? "0" + minute.toString() : minute) +
+            utcString.substring(16,19);
+        var datetimeField = document.getElementById("date");
+        datetimeField.value = localDatetime;
+    });
+</script>
+
+
+</body>
+</html>

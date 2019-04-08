@@ -5,7 +5,7 @@ from apuestas.models import UserProfile
 class UserForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['password', 'is_superuser', 'email', 'name', 'lastname', 'balance', 'dni', 'is_active']
+        fields = ['password', 'email', 'name', 'lastname', 'balance', 'dni', 'is_active']
 
 
 class UserPayoffForm(forms.ModelForm):

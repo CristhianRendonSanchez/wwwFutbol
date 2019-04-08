@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>.:: ds ::.</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="col-sm">
+
+        <form method="POST" class="post-form" action="{% url 'win' apuestas.id %}">
+            {% csrf_token %}
+            <div class="container">
+                <div class="form-group row">
+                    <label class="col-sm-1 col-form-label"></label>
+                    <div class="col-sm-4">
+                        <h3>Apuesta Por Ganador</h3>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm">
+                           <input type="radio" name="team_bet" value="{{ apuestas.local_team  }}"/>
+                         <label class="col-sm col-form-label"> {{ apuestas.local_team  }}</label>
+                    </div>
+                    <div class="col-sm">
+                        <input type="radio" name="team_bet" value="{{ apuestas.visiting_team  }}"/>
+                        <label class=" col-sm col-form-label">{{ apuestas.visiting_team  }}</label>
+                    </div>
+                    </label>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-1 col-form-label"></label>
+                    <div class="col-sm">
+                        <button type="submit" class="btn btn-success">Apostar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="col-sm">
+
+        <form method="POST" class="post-form" action="{% url 'marker' apuestas.id %}">
+            {% csrf_token %}
+            <div class="container">
+                <div class="form-group row">
+                    <label class="col-sm-1 col-form-label"></label>
+                    <div class="col-sm-4">
+                        <h3>Apuesta Por Marcador</h3>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm">
+                            <label class="col-sm col-form-label"> {{ apuestas.local_team  }}</label>
+                            <input type="number" name="local_marker"/>
+                    </div>
+                    <div class="col-sm">
+                            <label class="col-sm col-form-label"> {{ apuestas.visiting_team }}</label>
+                            <input type="number" name="visiting_marker"/>
+                    </div>
+                    </label>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-1 col-form-label"></label>
+                    <div class="col-sm">
+                        <button type="submit" class="btn btn-success">Apostar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="col-sm">
+
+        <form method="POST" class="post-form" action="{% url 'goal' apuestas.id %}">
+            {% csrf_token %}
+            <div class="container">
+                <div class="form-group row">
+                    <label class="col-sm-1 col-form-label"></label>
+                    <div class="col-sm-4">
+                        <h3>Apuesta Por Diferencia De Goles</h3>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm">
+                            <label class="col-sm col-form-label"> Diferencia: </label>
+                            <input type="number" name="goals_dif"/>
+                    </div>
+                     </label>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-1 col-form-label"></label>
+                    <div class="col-sm">
+                        <button type="submit" class="btn btn-success">Apostar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <br>
+    <div class="col-sm">
+         <a href="{% url 'ligas' apuestas.user_id %}" class="btn btn-success">Volver a Las Ligas</a>
+    </div>
+</div>
+</body>
+</html>
