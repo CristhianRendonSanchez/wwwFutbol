@@ -156,18 +156,50 @@ def bets_goals_view(request,id):
 	return render(request, 'bets.html', {'apuestas': datos})
 
 def list_bets(request,id):
-	bet = Bets.objects.get(user_id_id=id)
+	bet = Bets.objects.filter(user_id_id=id)
+
+
 	datos =[]
 
 	for bets in bet:
 		temp = {}
 		temp['local'] = bets.local_team
+
 		print(" aqui voy con ")
 		print(bets.local_team)
 
 		temp['visiting'] = bets.visiting_team
-		temp['balance'] = bets.local_team
-		temp['id'] = bets.local_team
+		temp['balance'] = bets.balance
+		temp['id'] = bets.id
+		"""
+		win = WinBets.objects.filter(bets_id_id=bets.id)
+		market = MarkerBets.objects.filter(bets_id_id=bets.id)
+		goal = GoalsBets.objects.filter(bets_id_id=bets.id)
+		print("tamanio")
+
+		if win:
+			print(win)
+			temp['tipo'] = "Apuesta Por Ganador"
+			temp['win'] = win.team_bet
+			temp['local_marker'] = ""
+			temp['visiting_marker'] = ""
+			temp['dif'] = ""
+		elif market:
+			print(market)
+			temp['tipo'] = "Apuesta Por Marcador"
+			temp['win'] = ""
+			temp['local_marker'] = market.local_marker
+			temp['visiting_marker'] = market.visiting_marker
+			temp['dif'] =""
+		elif goal:
+			print(goal)
+			temp['tipo'] = "Apuesta Por Diferencia"
+			temp['win'] = ""
+			temp['local_marker'] = ""
+			temp['visiting_marker'] = ""
+			temp['dif'] = goal.goals_dif
+"""
+
 		datos.append(temp)
 
 	return render(request,'listBets.html',{'apuestas': datos} )

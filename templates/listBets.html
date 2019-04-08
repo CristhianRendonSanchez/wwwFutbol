@@ -11,8 +11,8 @@
 
 <body>
 <div class="container" style="padding-top: 5%">
-    <h2>Ligas</h2>
-    <p>Escribe para buscar las ligas disponibles</p>
+    <h2>Apuestas</h2>
+    <p>Escribe para buscar apuesta</p>
     <input class="form-control" id="myInput" type="text" placeholder="Buscar...">
     <br>
     <table class="table table-bordered table-striped">
@@ -24,15 +24,17 @@
             <th>Id Apuesta</th>
         </tr>
         </thead>
-        <tbody id="myTable">
-        {% for bet in apuestas %}
-            <tr>
-                <td>{{ bet.local }}</td>
-                <td>{{ liga.visiting }}</td>
-                <td>{{ liga.balance }}</td>
-                <td>{{ liga.id }}</td>
-            </tr>
-        {% endfor %}
+        <td id="myTable">
+            {% for bet in apuestas %}
+                <tr>
+                    <td>{{ bet.local }}</td>
+                    <td>{{ bet.visiting }}</td>
+                    <td>{{ bet.balance }}</td>
+                    <td>{{ bet.id }}</td>
+
+                </tr>
+            {% endfor %}
+        </td>
         </tbody>
     </table>
 </div>
