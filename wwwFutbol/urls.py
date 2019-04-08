@@ -20,8 +20,9 @@ from django.urls import path, include
 from apuestas.views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    #path('admin/', admin.site.urls),
+    path('',include('users.urls')),
     path('bets/',include('apuestas.urls')),
-    #path('payoffs',include('payoffs.urls'))
+    path('payoffs',include('payoffs.urls'))
 ]
 

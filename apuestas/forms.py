@@ -13,15 +13,15 @@ class BetsForm(forms.ModelForm):
     class Meta:
         model = Bets
 
-        #fields = '__all__'
+        fields = '__all__'
 
        #CHOICES = (('Option 1', 'Option 1'),('Option 2', 'Option 2'),)
 
-        fields = [
+        """fields = [
             'balance',
 		]
 
-        """labels = {
+        labels = {
 			'user_id' : 'id de usuario',
             'local_team' : 'equipo local',
             'visiting_team': 'equipo visitante',

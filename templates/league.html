@@ -29,7 +29,7 @@
                 <td>{{ liga.pais }}</td>
                 <td>{{ liga.liga }}</td>
                 <td>
-                    <a href="{% url 'team' liga.id %}" class="btn btn-success"><span  class="fas fa-hand-holding-usd"></span></a>
+                    <a href="{% url 'team' liga.id user %}" class="btn btn-success"><span  class="fas fa-hand-holding-usd"></span></a>
                 </td>
             </tr>
         {% endfor %}

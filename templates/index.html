@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>.:: PRUEBA ::.</title>
-    </head>
-    <body>
-        <span >
-            <h1> Apuestas  Trato Demoniaco</h1>
-            <p> <strong>{{ seasons }}</strong> </p>
-        </span>
+<head>
+    <title>.:: PRUEBA ::.</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1">
+    <link rel="stylesheet" href="../static/css/estilo.css"></head>
+</head>
+<body>
 
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Registrar</button>
-        </form>
+<span >
+    <h1> Apuestas  Trato Demoniaco</h1>
+    <form method="POST" action="{% url 'user_login' %}">
+        {% csrf_token %}
+        <input type="text" name="email" required/>
+        <input type="password" name="password" required/>
 
-    </body>
+        <button type="submit">Login</button>
+    </form>
+    <a href="{% url 'register'%}" class="btn btn-warning">Registrese y apueste</a>
+
+</span>
+</body>
 </html>

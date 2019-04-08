@@ -31,7 +31,7 @@
                 <td>{{ team.visisting_team }}</td>
                 <td> {{ team.date }}</td>
                 <td>
-                    <a href="{% url 'bet' team.id %}" class="btn btn-success"><span  class="fas fa-hand-holding-usd"></span></a>
+                    <a href="{% url 'bet' team.id user %}" class="btn btn-success"><span  class="fas fa-hand-holding-usd"></span></a>
                 </td>
             </tr>
         {% endfor %}
