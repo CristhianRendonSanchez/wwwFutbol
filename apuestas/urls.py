@@ -10,4 +10,5 @@ urlpatterns = [
     path('win/<int:id>', views.bets_win_view, name='win'),
     path('marker/<int:id>', views.bets_Marker_view, name='marker'),
     path('goal/<int:id>', views.bets_goals_view, name='goal'),
+    path('myBets/<int:id>', views.list_bets, name='mybets'),
     ]

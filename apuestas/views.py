@@ -155,4 +155,25 @@ def bets_goals_view(request,id):
 	datos['id'] = bet.id
 	return render(request, 'bets.html', {'apuestas': datos})
 
+def list_bets(request,id):
+	bet = Bets.objects.get(user_id_id=id)
+	datos =[]
 
+	for bets in bet:
+		temp = {}
+		temp['local'] = bets.local_team
+		print(" aqui voy con ")
+		print(bets.local_team)
+
+		temp['visiting'] = bets.visiting_team
+		temp['balance'] = bets.local_team
+		temp['id'] = bets.local_team
+		datos.append(temp)
+
+	return render(request,'listBets.html',{'apuestas': datos} )
+
+"""def list_bets_type(request,id):
+	win = WinBets.objects.get(bets_id_id=id)
+	market = MarkerBets.objects.get(bets_id_id=id)
+	goal = MarkerBets.objects()
+	return render(request,)"""
