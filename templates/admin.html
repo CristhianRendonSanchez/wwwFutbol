@@ -1,56 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Lista de Usuarios</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    </head>
-    <body>
-        <div class="container" style="padding-top: 5%">
-            <h2>Usuarios</h2>
-            <p>Escribe para buscar por nombre, apellido o email</p>
-            <input class="form-control" id="myInput" type="text" placeholder="Buscar...">
-            <br>
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Identificación</th>
-                        <th>Nombres</th>
-                        <th>Apellidos</th>
-                        <th>Email</th>
-                        <th>Saldo($)</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="myTable">
-                    {% for user in users %}
-                        <tr>
-                            <td>{{ user.dni }}</td>
-                            <td>{{ user.name }}</td>
-                            <td>{{ user.lastname }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.balance }}</td>
-                            <td>
-                                <a href="{% url 'edit' user.id %}" class="btn btn-warning"><span class="fas fa-wrench"></span></a>
-                                <a href="{% url 'delete' user.id %}" class="btn btn-danger"><span class="fas fa-trash-alt"></span></a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <script>
-            $(document).ready(function(){
-                $("#myInput").on("keyup", function() {
-                    var value = $(this).val().toLowerCase();
-                    $("#myTable tr").filter(function() {
-                      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                    });
-                });
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Usuarios</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="container" style="padding-top: 5%">
+    <h2>Usuarios</h2>
+    <p>Escribe para buscar por nombre, apellido o email</p>
+    <input class="form-control" id="myInput" type="text" placeholder="Buscar...">
+    <br>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Identificación</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Email</th>
+            <th>Saldo($)</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        {% for user in users %}
+            <tr>
+                <td>{{ user.dni }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.balance }}</td>
+                <td>
+                    <a href="{% url 'edit' user.id %}" class="btn btn-warning"><span class="fas fa-wrench"></span></a>
+                    <a href="{% url 'delete' user.id %}" class="btn btn-danger"><span class="fas fa-trash-alt"></span></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="form-group row">
+    <label class="col-sm-1 col-form-label"></label>
+    <div class="col-sm-4">
+        <a href="{% url 'user_logout' %}" class="btn btn-success">Salir</a>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
-        </script>
-    </body>
+        });
+    });
+</script>
+</body>
 </html>
